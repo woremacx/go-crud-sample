@@ -1,0 +1,4 @@
+*.bak
+*~
+/go-crud-sample
+/db/db
