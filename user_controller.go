@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"github.com/woremacx/go-crud-sample/models"
 	"github.com/wcl48/valval"
+	"github.com/woremacx/go-crud-sample/models"
 	"github.com/zenazn/goji/web"
 	"html/template"
 	"net/http"
@@ -15,6 +15,11 @@ var tpl *template.Template
 type FormData struct {
 	User models.User
 	Mess string
+}
+
+func UserRoot(c web.C, w http.ResponseWriter, r *http.Request) {
+	fmt.Println("UserRoot")
+	http.Redirect(w, r, "/user/", 301)
 }
 
 func UserIndex(c web.C, w http.ResponseWriter, r *http.Request) {
@@ -41,7 +46,7 @@ func UserCreate(c web.C, w http.ResponseWriter, r *http.Request) {
 		tpl.Execute(w, FormData{User, Mess})
 	} else {
 		db.Create(&User)
-		http.Redirect(w, r, "/user/index", 301)
+		http.Redirect(w, r, "/user/", 301)
 	}
 }
 
@@ -68,7 +73,7 @@ func UserUpdate(c web.C, w http.ResponseWriter, r *http.Request) {
 		tpl.Execute(w, FormData{User, Mess})
 	} else {
 		db.Save(&User)
-		http.Redirect(w, r, "/user/index", 301)
+		http.Redirect(w, r, "/user/", 301)
 	}
 }
 
@@ -76,5 +81,5 @@ func UserDelete(c web.C, w http.ResponseWriter, r *http.Request) {
 	User := models.User{}
 	User.Id, _ = strconv.ParseInt(c.URLParams["id"], 10, 64)
 	db.Delete(&User)
-	http.Redirect(w, r, "/user/index", 301)
+	http.Redirect(w, r, "/user/", 301)
 }
